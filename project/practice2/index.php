@@ -1,5 +1,5 @@
 <?php
-    	header('Content-Type: text/html; charset=utf-8');
+    header('Content-Type: text/html; charset=utf-8');
     $regexp = "/к.т/ui";        // Регулярное выражение которое будем искать
 
     $lines = [

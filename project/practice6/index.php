@@ -63,16 +63,7 @@
             $regexp = '#([\s][\S])(\S)+#ui';
             return preg_replace($regexp, '$1.', $name);
         }
-    }
-
-    
-    class ResultOfEmployee extends Employee
-    {
-        $result     = $name;
-        $totalHours = $hours;
-
-    }
-    
+    }    
  
     $ivan       = new Employee;
     $ivan->name = "Иванов Иван";
@@ -87,12 +78,9 @@
  
     $employees = array($ivan, $peter);
    
-    // foreach ($employees as $employee) {
-    //     echo "Имя: {$employee->name}<br>";
-    //     echo "Ставка, тугриков в час: {$employee->rate}<br>";
-    //     echo "Отработал, часов: {$employee->getTotalHoursWorked()}<br>";
-    //     echo "Заработал, тугриков: {$employee->getSolary()}<br><br>";
-    // }
+    echo "Исходные данные задачи: Ставка первого сотрудника - Иванова Ивана - 10 тугриков\ч. Работает 
+    40, 40, 40, 40 чаосов в месяц. Ставка второго сотрудника Петрова Петра - 8 тугриков\ч. Работает 
+    40,10,40,50 ч\месяц. Вывести все в виде красивой табличке, алгоритм решения реализовать с помощью ООП.<br><br>";
  
     $col1 = 20;
     $col2 = $col3 = $col4 = $col5 = 8;

@@ -10,17 +10,28 @@ header('Content-Type: text/html; charset=utf-8');
 // (доп) отсортирует массив содержащий купюры, так как этого требует цикл foreach в функции bank
 // Чтобы решить потребовалось порядка 4-5 часов
 
+if (empty($_POST)){
+    echo "Добрый день. Мы рады приветствовать Вас в нашем банкомате. <br>Сейчас у нас в системе находится:<br>";
+    $bills  = [];
+    $bills[100]     = rand(1, 10);
+    $bills[5000]    = rand(1, 10);
+    $bills[500]     = rand(1, 10);
+    $bills[1000]    = rand(1, 10);
 
-if (isset($_POST['number'])){
+    foreach ($bills as $key => $value) {
+        echo "{$value} купюр {$key}-го значения<br>"; 
+    }
+
+    echo "Какую бы сумму вы хотели снять?<br>";
+}
+
+elseif (isset($_POST['number'])){  
+    $bills  = []; 
     $amount = $_POST['number'];
+    $bills  = preg_replace('#U7F#', '"', $_POST['bills']);
+    $bills  = json_decode($bills, true);
+
     echo "Сумма: $amount <br>";
-    
-    $bills = array (
-        100     => 6,
-        5000    => 4,
-        500     => 5,
-        1000    => 5
-    );
 
     /*Функция, повзоляющая распечатать полученный результат в зависимости от типа получаемого значение в аргументе*/
     function print_result($result){
@@ -35,7 +46,7 @@ if (isset($_POST['number'])){
     }
 
     // Основная функция, принимающая введенное значение и массив и выдающая результат в виде строки ошибки, либо массива 
-    function bank ($amount, $bills){                                                    // с основными результатами
+    function bank ($amount, $bills){                                                    // с основными результатами 
         $mas = array();                             // Вспомогательный массив, который будет хранить основные результаты
         $checkNumb = checkNumb($amount);            // Вызываем функцию проверки корректности введенных данных
         switch ($checkNumb) {                       // Первые три ветви - "отрицательный" итог проверки на корректность данных  
@@ -46,13 +57,17 @@ if (isset($_POST['number'])){
             case 'nubmNeg':
                 return "Вы ввели отрицательное число, проверьте введенные данные";
                 break;
+
+            case 'zero':
+                return "Вы ввели 0, пожалуйста, введите целое число";
+                break;
             
             case 'numbMultiple':
                 return "Извините, невозможно выдать указанную сумму, так как она не кратна 100, повторите попытку";
                 break;
 
-            default:                                // Основная ветвь алгоритма расчета купюр для выдачи 
-                $lengthAmount = count($bills);
+            default:                                // Основная ветвь алгоритма расчета купюр для выдачи     
+            $lengthAmount = count($bills);
 
                 foreach ($bills as $key => $value) {        // Перебираем массив с нашими купюрами в банкомате, и проверяем
                                                             // Хватает ли их для выдачи необходимой суммы
@@ -83,26 +98,33 @@ if (isset($_POST['number'])){
     }
 
     function checkNumb ($numb) {
+        if ($numb == 0) {
+            return "zero";
+        }
         if (!(ctype_digit($numb))){     // Проверка на то, что в строке только цифры
             return "numbErChar";
         }
         if ($numb < 0) {                // Проверка на то, что число неотрицательное
             return "nubmNeg";
         }       
-        else if ($numb % 100){          // Проверка на кратность минимально возможной купюры
+        if ($numb % 100){          // Проверка на кратность минимально возможной купюры
             return "numbMultiple";
         }
         else return 1;
     } 
 
-    $bilss = krsort ($bills);           // Отсортируем массив по ключу в порядке убывания
+    krsort ($bills);           // Отсортируем массив по ключу в порядке убывания
     $result = bank($amount, $bills);    // Вызовем основную функцию рассчета выдачи денег
     print_result ($result);             // Вызовем вспомогательную функцию для вывода информации
 }
 
+$bills  = json_encode($bills);
+$bills  = preg_replace('#\"#', 'U7F', $bills);            // Меняем регуляркой все ковычки, чтобы передать через POST
+
 echo<<<_END
-<form action="index.php" method="post">
-<input type="text" name="number" value="0">
-<input type="submit" value="Снять наличные"></form>
+<form action="index.php"method="post">
+<input type="text"      name="number"   value="0">
+<input type="hidden"    name="bills"    value="$bills"
+<input type="submit"    value="Снять наличные"></form>
 _END;
 ?>

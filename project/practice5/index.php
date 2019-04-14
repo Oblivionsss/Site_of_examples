@@ -150,21 +150,24 @@ $target = 'vla';
 
 // Теперь напишем функцию которая добавляет последний шаг
 // upd2.0 Теперь пилим функцию которая ищет вглубь
-$res = makeOneStap($paths, $pathDone, $time, $point, $target);      
-function makeOneStap($paths, $pathDone, $time, $point, $target){
-    if (!array_key_exists($target, $paths[$point])){        // Если мы не находим нужную точку в текущей ветке
-        foreach ($paths[$point] as $key => $value) {        // Значит начинаем перебирать точки текущей ветки
-            makeOneStap($paths, $pathDone, $time, $key, $target);     // И для каждой вызывать эту же функцию
-                     // Но как это заонтроллить хз, так как эта поебота может циклиться изи
-        }
-    }
-    $result = array();  // Запишем все необходимое в массив
-    $result['time'] = $time + $paths[$point][$target]['time'];      // Добавляем новое время для последнего шага
-    $result['path'] = array_merge($pathDone);                       // Сливаем массив с путем в наш результирующий массив
-    array_push($result['path'], $target);                           // И добавляем последнюю точку
-    return $result;
+echo <<<_END
+Функция, построенная на рекурсии, в которой я закопался<br>
+\$res = makeOneStap(\$paths, \$pathDone, \$time, \$point, \$target);<br>      
+function makeOneStap(\$paths, \$pathDone, \$time, \$point, \$target){<br>
+    if (!array_key_exists(\$target, \$paths[\$point])){        // Если мы не находим нужную точку в текущей ветке <br>
+        foreach (\$paths[\$point] as \$key => \$value) {        // Значит начинаем перебирать точки текущей ветки <br>
+            makeOneStap(\$paths, \$pathDone, \$time, \$key, \$target);     // И для каждой вызывать эту же функцию <br>
+                     // Но как это заонтроллить хз, так как эта поебота может циклиться изи <br>
+        } <br>
+    } <br>
+    \$result = array();  // Запишем все необходимое в массив <br>
+    \$result['time'] = \$time + \$paths[\$point][\$target]['time'];      // Добавляем новое время для последнего шага <br>
+    \$result['path'] = array_merge(\$pathDone);                       // Сливаем массив с путем в наш результирующий массив <br>
+    array_push(\$result['path'], \$target);                           // И добавляем последнюю точку <br>
+    return \$result;<br>
 }
-
-var_dump($res);
+_END;
+// $res = makeOneStap($paths, $pathDone, $time, $point, $target);
+// var_dump($res);
 ?>  
 <!-- Не решил, потратил 5 часов -->

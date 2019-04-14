@@ -1,8 +1,8 @@
 <?php
-	header('Content-Type: text/html; charset=utf-8');
-// Задача на проверку номеров телефонов
+header('Content-Type: text/html; charset=utf-8');
+// Задача на проверку номеров телефонов 
 // Первый неверный вариант:
-// $regexp_phone = '/^(\+7|8)(((\\S?\\(\\S?)[0-9]{3}(\\S?\\(\\S?))|((\\S?\\-\\S?)[0-9]{3}(\\S?\\-\\S?)))((\\S?\\-\\S?)[0-9]{3}(\\S?\\-\\S?))((\\S?\\-\\S?)[0-9]{2}(\\S?\\-\\S?))((\\S?\\-\\S?)[0-9]{2}(\\S?\\-\\S?))$/';  
+// $regexp_phone = '/^(\+7|8)(((\S?\(\S?)[0-9]{3}(\S?\(\S?))|((\S?\-\S?)[0-9]{3}(\S?\-\S?)))((\S?\-\S?)[0-9]{3}(\S?\-\S?))((\S?\-\S?)[0-9]{2}(\S?\-\S?))((\S?\-\S?)[0-9]{2}(\S?\\-\\S?))$/';  
 
 // Массив для проверки "правильных" номеров:
 $correctNumbers = [ 
@@ -22,22 +22,29 @@ $incorrectNumbers = [
     ];
 
 // Шаблон запроса на корректность введенных данных:
-$pattern = '#[(\\+7)8]((\\s?\\d{3}\\s?|(\\s?\\(\\s?\\d{3}\\s?\\)\\s?)|(\\s?\\-\\s?\\d{3}\\s?\\-\\s?)))(\\s?\\d{3}\\s?)(\\s?\\d{2}\\s?)(\\s?\\d{2}\\s?)#';
-$pattern_v2 = '#^((\\+\\s?7)|8)((\\s?\\d{3}\\s?|(\\s?\\(\\s?\\d{3}\\s?\\)\\s?)|(\\s?\\-\\s?\\d{3}\\s?\\-\\s?)))(\\s?\\-?\\s?\\d\\s?\\-?\\s?){6}\\d$#';
+$pattern = '#[(\+7)8]((\s?\d{3}\s?|(\s?\(\s?\d{3}\s?\)\s?)|(\s?\-\s?\d{3}\s?\-\s?)))(\s?\d{3}\s?)(\s?\d{2}\s?)(\s?\d{2}\s?)#';
+$pattern_v2 = '#^((\+\s?7)|8)((\s?\d{3}\s?|(\s?\(\s?\d{3}\s?\)\s?)|(\s?\-\s?\d{3}\s?\-\s?)))(\s?\-?\s?\d\s?\-?\s?){6}\d$#';
+$pattern_v3 = '#^((\+\s?7)|8)([-\s()]{0,3})(\d[-\s()]{0,3}){10}$#';     // +7 или 8 затем от 0 до трех любых символа и 10 раз по цифре 
+                                                                        // и от 0 до 3 любых символа 
+
 // Шаблон для приведения к нормальной форме:
-$pattern_v3 = '#[^\\d]#';
+$pattern_normal = array ('#(\D)#',
+                        '#^((\+?7)|8)#');
 
 echo "Проверка корректных номеров:<br>";
-check($correctNumbers, $pattern_v2);
+check($correctNumbers, $pattern_v2, $pattern_normal);
 echo "Проверка некорректных номеров:<br>";
-check($incorrectNumbers, $pattern_v2);
+check($incorrectNumbers, $pattern_v2, $pattern_normal);
 
 // пишем функцию проверки
-function check($mas, $pattern){
+function check($mas, $pattern, $norm){
     foreach ($mas as $key => $value) {
         if(preg_match($pattern, $value, $mathes))
-            preg_replace()
-            echo "Номер телефона '$value' корректный<br>";
+            {
+                $replace = array ('', '8');             // Двойная замена шаблоном
+                $mathes[0] = preg_replace ($norm, $replace, $mathes[0]);
+                echo "Номер телефона '$value' корректный. Нормальная форма: $mathes[0]<br>";
+            }
         else echo "Номер телефона '$value' некорректный:с<br>";
     }
     echo "<br>";
