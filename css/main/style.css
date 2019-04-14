@@ -1,5 +1,12 @@
 /* This ccs-style for main page */
+html {
+    width: 100%;
+    height: 100%;
+}
+
 body {
+    width: 100%;
+    height: 100%;
     background: url(../../images/background/background.jpg);
     background-size: cover;
     background-repeat: no-repeat;
@@ -7,9 +14,9 @@ body {
     background-attachment: fixed;  
 }
 
-.link_group {
-    margin: 28% auto 0 auto; 
-    width: 550px;
+.link_group { 
+    width: 450px;
+    margin: 0 auto;
     font-size: 0;
 }
 
@@ -18,19 +25,20 @@ body {
 }
 
 .group_content {
-    display: inline-block;
+    width: 150px;
     padding: 60px 0;
     font-size: 16px;
-    width: 150px;
-    height: 150px;
-    box-sizing: border-box;
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    box-sizing: border-box;
     color: #E7E5DD;
     border-radius: 25px;
-    background: rgb(90, 88, 80, 0.4);
     border: 3px solid #E7E5DD;
     text-decoration: none;
     font-family: Quicksand-Medium;
+    background: rgb(90, 88, 80, 0.4);
 }
   .group_content:hover {
     color: rgb(248, 246, 239);
