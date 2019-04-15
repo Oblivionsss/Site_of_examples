@@ -1,0 +1,209 @@
+/*style first block*/
+@font-face {
+	font-family: Quicksand-Medium;
+	src: url(../fonts/Quicksand-Medium.ttf);
+}
+
+@font-face {
+	font-family: Quicksand-Regular;
+	src: url(../fonts/Quicksand-Regular.ttf);
+}
+
+@font-face {
+	font-family: IndieFlower;
+	src: url(../fonts/IndieFlower.ttf);
+}
+
+p {
+	font-size: 20px;
+	font-family: Quicksand-Regular;
+}
+
+h1 {
+	font-size: 40px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-family: Quicksand-Medium;
+}
+
+.container {
+	background-image: url(../Images/bac.jpg);
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 800px;
+}
+
+.content {
+	width: 90%;
+	height: 100%;
+	margin: 0 auto;
+	position: relative;
+}
+
+.header {
+	clear: both;
+	display: block;
+	height: 100px;
+}
+
+.logoType {
+	width: 60px;
+	height: 60px;
+	float: left;
+	margin-left: 20px;
+	margin-top: 20px; 
+}
+
+.logo {
+	float: left;
+}
+
+.menu {
+	float: right;
+	margin-top: 30px;
+}
+
+.menu a {
+	font-family: IndieFlower;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: black;
+	font-size: 25px;
+}
+
+.menu 	li {
+	float: left;
+	margin-right: 20px;
+}
+
+.menu .active {
+	color: #7B68EE;
+}
+
+.active:hover {
+	color: black;
+}
+
+.text_block {
+	width: 45%;	
+	margin: 15% 1.5% 0 53.5%;
+	border-style: solid solid none none;
+	border-width: 1px 1px 0 0;
+	border-color: #7B68EE;
+	position: relative;
+	clear: both;
+}
+
+.text {
+	line-height:1.3;
+	text-align: justify;
+	margin-right: 4px;
+}
+
+a.button {
+	display: inline-block;
+	color: white;
+	text-decoration: none;
+	padding: .6em 2em;
+	outline: none;
+	border-radius: 6px;
+	background: MediumPurple;
+	transition: 0.2s;
+	margin-top: 10px;
+} 
+
+a.button:hover { 
+	background: linear-gradient(MediumPurple, LightGray) MediumPurple;
+	color: black;
+}
+
+a.button:active { 
+	background: linear-gradient(LightGray, MediumPurple) LightGray; 
+}
+
+.animationType {
+	height: 35%;
+	bottom: 5px;
+	left: 25px;
+	position: absolute;
+	float: left;
+	animation: bouncing 1.0s cubic-bezier(.1,.25,.1,1) 0s infinite alternate both;
+}
+
+@keyframes bouncing {
+	0%  { bottom: 0;}
+	100%{ bottom: 50px;}
+}
+
+/*style second block*/
+
+.container-2 {
+	float: left;
+	height: 500px;
+	width: 100%;
+}
+
+.header-2 {
+	clear: both;
+	display: block;
+}
+
+.header-2 h1 {
+	text-transform: uppercase;
+	font-family: Quicksand-Medium;
+	font-size: 25px;
+	text-align:center;
+	margin-top: 20px;
+	width: auto;
+}
+
+.galery {
+	display: flex;
+	align-content: space-around;
+	flex-flow: wrap;
+
+}
+
+.logo_block {
+	flex-basis: 25%;
+	margin: 30px auto;
+	border-style: none none solid solid;
+	border-width: 0 0 1px 1px;
+	border-color: #7B68EE;
+}
+
+.logo_block img {
+	display: block;
+	margin: 0 auto 10px auto;
+}
+
+.text_logo {
+	line-height:1.3;
+	text-align: center;
+	font-family: Quicksand-Regular;
+	margin-left: 7px;
+	margin-bottom: 7px;	
+}
+
+/*Page_contact*/
+
+.page_contact {
+	background: linear-gradient( 
+    #d4d3d6 40%, #f1eff5 40%),
+    linear-gradient( 
+    rgba(255,255,0,.7), rgba(255,255,255,0));
+  	background-size: 4em 4em, 100%;
+  	background-color: lightgrey;
+  	height: 1000px;
+}
+
+.content_page_contact {
+	border-style: solid;
+	border-width: 3px;
+	border-color: #7B68EE;
+	width: 500px;
+	height: 500px;
+	border-radius: 50%;
+	margin: 15% auto;
+}		
+	
