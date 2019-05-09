@@ -6,8 +6,10 @@
 
         public function __construct($param) 
         {
-            foreach ($param as $key => $value) {
-                $this->array[$key]    = $value;
+            if (!empty($param)) {
+                foreach ($param as $key => $value) {
+                    $this->array[$key]    = $value;
+                }
             }
 
         }

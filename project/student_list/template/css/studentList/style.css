@@ -6,8 +6,8 @@ body,
 }
 
 body {
-    background: url(/study/student_list/template/image/bacg.png) repeat-y;
-    background-size: auto;
+    background: url(/study/student_list/template/image/bacg.png) no-repeat;
+    background-size: cover;
 }
 
 .text_welcome {

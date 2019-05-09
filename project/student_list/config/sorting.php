@@ -1,23 +1,39 @@
 <?php   // Файл формирования URI запросов
 
-    $sort   = 'DenisKa4ok';     // Варианта, позволяющая отследить текущий столбец и его историю
+    $sort   = 'kek';     // Варианта, позволяющая отследить текущий столбец и его историю
     $search = '';               // Поисковая строка
     $dir    = 'desc';           // Способ сортировка по умолчанию (В порядке убывания)
             
     $columns= array("Name", "Surname", "Sex", "Dateofbirth", "Email", "Groupss", "Balls", "Number");
-    // Список названий основных столбцов
+                // Список названий основных столбцов
 
 
-    function getSortingLink($column, $sort, $dir, $search)      // Возвращает часть URI под запрос
+    function getSortingLink($column, $sort, $dir, $search, $page)      // Возвращает часть URI под запрос
     {
-        $link = "?sort=$column";                                // Определяем столбец, который будем сортировать
-        if ($sort == $column && $dir == 'desc') $link .= '&dir=asc';    // Если он уже был отсортирован, меняем метод 
-                                                                // сортировки на сортировку в порядке возрастания
+        $link = "?sort=$column";
+	    if ($sort == $column && $dir == 'desc') $link .= '&dir=asc';
         $search = u($search);                                   // Формируем запрос
-        $link .= "&search=$search";                         
+        $link   .= "&search=$search";  
+        $link   .="&page=$page";                         
         return $link;
     }
 
+
+    function getSortLink($column, $sort, $dir, $search, $page)      // Возвращает часть URI под запрос
+    {
+        $link   = '';
+        $parth  = '?';
+        $columns= array("Name", "Surname", "Sex", "Dateofbirth", "Email", "Groupss", "Balls", "Number");
+        if (in_array($column, $columns)) {
+            $link   = "?sort=$column";
+            if ($sort == $column && $dir == 'asc') $link .= '&dir=asc';
+            $parth  = '&';
+        }
+        $search = u($search);                                   // Формируем запрос
+        $link   .= "{$parth}search=$search";  
+        $link   .="&page=$page";                         
+        return $link;
+    }
 
     function getArrow ($column, $sort, $dir)        // Определяет символ убывания, возрастания (или ничего)
     {
@@ -53,3 +69,5 @@
     if (isset($_GET['search'])) {
         $search = $_GET['search'];
     }   
+
+    $sort_1     = $sort; 

@@ -35,7 +35,7 @@
 
         <div class="input-block">
             <form class="input-cont" method="get">
-                <input type="text" class="" placeholder="Введите имя студента здесь " value="<?=h($search)?>"
+                <input type="text" class="" placeholder="Кого вы хотите найти? " value="<?=h($search)?>"
                 name="search" type="text" size="40">
             </form>
         </div>
@@ -47,14 +47,14 @@
             <thead>
                 <tr>
 
-                    <th><a href="<?=getSortingLink('Name', $sort, $dir, $search)?>">Имя<?=getArrow('Name', $sort, $dir)?></a></th>
-                    <th><a href="<?=getSortingLink('Surname', $sort, $dir, $search)?>">Фамилия<?=getArrow('Surname',$sort,$dir)?></a></th>
-                    <th><a href="<?=getSortingLink('Sex', $sort, $dir, $search)?>">Пол<?=getArrow('Sex',$sort,$dir)?></a></th>
-                    <th><a href="<?=getSortingLink('Dateofbirth', $sort, $dir, $search)?>">Год рождения<?=getArrow('Dateofbirth',$sort,$dir)?></a></th>
-                    <th><a href="<?=getSortingLink('Groupss', $sort, $dir, $search)?>">Группа<?=getArrow('Groupss',$sort,$dir)?></a></th>
-                    <th><a href="<?=getSortingLink('Balls', $sort, $dir, $search)?>">Баллы<?=getArrow('Balls',$sort,$dir)?></a></th>
-                    <th><a href="<?=getSortingLink('Email', $sort, $dir, $search)?>">E-mail<?=getArrow('Email',$sort,$dir)?></a></th>
-                    <th><a href="<?=getSortingLink('Number', $sort, $dir, $search)?>">Номер телефона<?=getArrow('Number',$sort,$dir)?></a></th>
+                    <th><a href="<?=getSortingLink('Name', $sort, $dir, $search, 1)?>">Имя<?=getArrow('Name', $sort, $dir)?></a></th>
+                    <th><a href="<?=getSortingLink('Surname', $sort, $dir, $search, 1)?>">Фамилия<?=getArrow('Surname',$sort,$dir)?></a></th>
+                    <th><a href="<?=getSortingLink('Sex', $sort, $dir, $search, 1)?>">Пол<?=getArrow('Sex',$sort,$dir)?></a></th>
+                    <th><a href="<?=getSortingLink('Dateofbirth', $sort, $dir, $search, 1)?>">Год рождения<?=getArrow('Dateofbirth',$sort,$dir)?></a></th>
+                    <th><a href="<?=getSortingLink('Groupss', $sort, $dir, $search, 1)?>">Группа<?=getArrow('Groupss',$sort,$dir)?></a></th>
+                    <th><a href="<?=getSortingLink('Balls', $sort, $dir, $search, 1)?>">Баллы<?=getArrow('Balls',$sort,$dir)?></a></th>
+                    <th><a href="<?=getSortingLink('Email', $sort, $dir, $search, 1)?>">E-mail<?=getArrow('Email',$sort,$dir)?></a></th>
+                    <th><a href="<?=getSortingLink('Number', $sort, $dir, $search, 1)?>">Номер телефона<?=getArrow('Number',$sort,$dir)?></a></th>
 
                 </tr>
             </thead>
@@ -79,6 +79,20 @@ _END;
             </tbody>
         </table>
     </div>
+    
+    <?php if(!empty($this->pages)) {?>
+    <div class="container">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <?php foreach ($this->pages as $page):?>
+                        <th><a href="<?=getSortLink($sort_1, $sort, $dir, $search, $page)?>"><?=$page?></a></th>
+                    <?php endforeach;?>
+                </tr>
+            </tbody>
+        </table>
+    </div>    
+    <?}?>
         
 </body>
 </html>
