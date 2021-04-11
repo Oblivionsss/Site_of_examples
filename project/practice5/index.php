@@ -128,6 +128,7 @@ $paths = array(
     )
 );
  
+
 /* Чтобы не писать много раз array('time' => ..., 'by' => ...), используем функцию. 
     «canGet» переводится как «можно попасть» */
 function canGet($time, $byWhat) {
@@ -148,26 +149,103 @@ $point = "teh";
 // Наша цель:
 $target = 'vla';
 
-// Теперь напишем функцию которая добавляет последний шаг
-// upd2.0 Теперь пилим функцию которая ищет вглубь
-echo <<<_END
-Функция, построенная на рекурсии, в которой я закопался<br>
-\$res = makeOneStap(\$paths, \$pathDone, \$time, \$point, \$target);<br>      
-function makeOneStap(\$paths, \$pathDone, \$time, \$point, \$target){<br>
-    if (!array_key_exists(\$target, \$paths[\$point])){        // Если мы не находим нужную точку в текущей ветке <br>
-        foreach (\$paths[\$point] as \$key => \$value) {        // Значит начинаем перебирать точки текущей ветки <br>
-            makeOneStap(\$paths, \$pathDone, \$time, \$key, \$target);     // И для каждой вызывать эту же функцию <br>
-                     // Но как это заонтроллить хз, так как эта поебота может циклиться изи <br>
-        } <br>
-    } <br>
-    \$result = array();  // Запишем все необходимое в массив <br>
-    \$result['time'] = \$time + \$paths[\$point][\$target]['time'];      // Добавляем новое время для последнего шага <br>
-    \$result['path'] = array_merge(\$pathDone);                       // Сливаем массив с путем в наш результирующий массив <br>
-    array_push(\$result['path'], \$target);                           // И добавляем последнюю точку <br>
-    return \$result;<br>
-}
-_END;
-// $res = makeOneStap($paths, $pathDone, $time, $point, $target);
-// var_dump($res);
-?>  
-<!-- Не решил, потратил 5 часов -->
+/* Чтобы не писать много раз array('time' => ..., 'by' => ...), используем функцию. 
+     «canGet» переводится как «можно попасть» */
+     function canGet($time, $byWhat) {
+        return array('time'     =>  $time, 'by' =>  $byWhat);
+    }
+    
+   // Текущий путь
+   $currentPath        = []; 
+   $currentPath[]      = $startPoint;
+   // Время, затраченное на текущий путь
+   $time               = 0;
+    
+   //Самый быстрый путь 
+   $winPath            = [];
+   // Его время (по умолчанию рандом большое число)
+   $winTime            = 999999;
+    
+    
+   // Основная функция расчета, которая проходит по всему усл. графу
+   function oneStep ($currentPath, $startPoint, $endPoint, $paths, $time){
+    
+       // Обращаемся к глобальным переменным
+       global $winPath;
+       global $winTime;
+       // Счетчик, который позволяет понять, к какому элементу мы обращаемся (для проверки, не является ли элемент последним)
+       $count = 0;
+    
+       // Перебор всех возможных путей
+       foreach ($paths[$startPoint] as $changeStation => $value) {
+           $count++;
+    
+           // Если мы уже были на станции, на которую собираемся пойти
+           if ( in_array ( $changeStation, $currentPath) ) {
+               // Если эта станция не последняя в текущем списке
+               if ( ! ($count == count ($paths[$startPoint])) ){
+                   continue;
+               }
+               else {
+                   return;
+               } 
+           }
+    
+           // Обновляем текущий список и время
+           $currentPath    []= $changeStation;    
+           $time           += $value['time'];
+    
+           // Если нашли выигрышный путь
+           if ( $changeStation == $endPoint ){
+               // Время выигрышного путя меньше, чем выигрышнуй путь по умолч.
+               if ($winTime > $time) {
+                   $winPath    = $currentPath;
+                   $winTime    = $time;
+               }
+    
+               // Сбрасываем последнюю переменную, так как мы не "пойдем" на эту станцию
+               $bif    = array_pop ($currentPath);
+    
+               // Если  это не последний элемент списка
+               if ( ! ($count == count ($paths[$startPoint])) ){
+                   continue;
+               }
+               else {
+                   return;
+               } 
+           }
+    
+           oneStep ($currentPath, $changeStation, $endPoint, $paths, $time); 
+    
+           // После вовзрата из "стека", необходимо отбросить последнюю переменную, так как она записана в текущий путь ($currentPath)
+           $bif    = array_pop ($currentPath);
+           // Аналогичным образом сбрасываем время
+           $time   -= $value['time'];
+       }
+   }
+    
+   oneStep ($currentPath, $startPoint, $endPoint, $paths, $time);
+    
+    
+   // Выводим информацию
+    
+   // Вспомогательная переменная, которая запоминает предыдущую станцию
+   $beforeStation;
+    
+   echo "Чтобы добраться с {$pointNames[$startPoint]} до {$pointNames[$endPoint]} за {$winTime} минут, вам нужно: <br>";
+   foreach ($winPath as $count => $value) {
+    
+       if ($count == 0) {
+           $beforeStation = $value;
+           continue;
+       }
+    
+       echo "От {$pointNames[$beforeStation]} " . 
+           $transportName[$paths[$beforeStation][$value]['by']] .
+           " до " . $pointNames[$beforeStation] . " за " .
+           $paths[$beforeStation][$value]['time'] . " минуты.<br>";
+    
+       $beforeStation = $value;
+   }
+    
+?>
